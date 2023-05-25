@@ -1,7 +1,7 @@
 <template>
   <nav :class="$style.title">
     <p v-text="title"></p>
-    <img alt="hamburg" src="../../public/imgs/hamburg.png" />
+    <!-- <img alt="hamburg" src="../../public/imgs/hamburg.png" /> -->
   </nav>
 </template>
 
@@ -30,10 +30,6 @@ export default {
   p {
     font-size: 16px;
     font-family: "Noto Sans";
-  }
-  img {
-    width: 35px;
-    cursor: pointer;
   }
 }
 </style>
