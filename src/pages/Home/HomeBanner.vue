@@ -9,7 +9,7 @@
           <img
             alt="search"
             @click="submit"
-            src="../../public/imgs/search.jpg"
+            src="../../../public/imgs/search.jpg"
           />
           <input v-model="msg" @change="search" type="text" placeholder="請輸入"/>
         </form>
@@ -18,7 +18,7 @@
 
     <!-- 中正紀念堂圖片 -->
     <div class="group background">
-      <img alt="hamburg" src="../../public/imgs/welcome.jpg" />
+      <img alt="hamburg" src="../../../public/imgs/welcome.jpg" />
     </div>
   </div>
 </template>

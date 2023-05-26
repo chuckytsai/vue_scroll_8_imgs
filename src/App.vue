@@ -1,17 +1,14 @@
 <template>
-  <TemplateNav />
-  <HomeBanner />
+  <HomePage/>
 </template>
 
 <script>
-import TemplateNav from "./components/TemplateNav.vue";
-import HomeBanner from "./components/HomeBanner.vue";
+import HomePage from "./pages/Home/HomePage.vue";
 
 export default {
   name: "App",
   components: {
-    TemplateNav,
-    HomeBanner,
+    HomePage,
   },
 };
 </script>
