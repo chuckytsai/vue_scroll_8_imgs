@@ -22,9 +22,7 @@ export default {
     });
 
     const search = (value) => {
-      if (value.length > 0) {
         data.searchWord = value;
-      }
     };
 
     const submit = () => {
