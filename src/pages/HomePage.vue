@@ -7,10 +7,10 @@
 <script>
 import { onMounted, toRefs, reactive } from "vue";
 
-import TemplateNav from "../../components/TemplateNav.vue";
-import HomeBanner from "./HomeBanner.vue";
+import TemplateNav from "../components/TemplateNav.vue";
+import HomeBanner from "../components/Home/HomeBanner.vue";
 
-import { getData } from "../../api/PicData.js";
+import { getData } from "../api/PicData.js";
 
 export default {
   components: {
