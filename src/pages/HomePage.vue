@@ -1,6 +1,7 @@
 <template>
   <TemplateNav />
   <HomeBanner :message="searchWord" @search="search" @submit="submit" />
+  <HomeCards :cardInformation="cardInformation" />
   <div class="homePage"></div>
 </template>
 
@@ -9,6 +10,7 @@ import { onMounted, toRefs, reactive } from "vue";
 
 import TemplateNav from "../components/TemplateNav.vue";
 import HomeBanner from "../components/Home/HomeBanner.vue";
+import HomeCards from "../components/Home/HomeCards.vue";
 
 import { getData } from "../api/PicData.js";
 
@@ -16,12 +18,13 @@ export default {
   components: {
     TemplateNav,
     HomeBanner,
+    HomeCards,
   },
   setup() {
     const data = reactive({
       searchWord: "",
       cardAmount: 8,
-      cardInformation: [],
+      cardInformation: [""],
     });
 
     const search = (value) => {
@@ -39,9 +42,11 @@ export default {
         const Arry = result.data.result.results.filter((item) => {
           return item.stitle.includes(data.searchWord);
         });
-        data.cardInformation === Arry.slice(0, data.cardAmount);
+        data.cardInformation = Arry.slice(0, data.cardAmount);
         console.log(Arry.slice(0, data.cardAmount));
-      } else console.log("無法連線");
+      } else {
+        console.log("無法連線");
+      }
     };
 
     onMounted(() => {
