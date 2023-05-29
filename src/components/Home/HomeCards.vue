@@ -2,13 +2,13 @@
   <div class="homeCard">
     <div class="cardBook">
       <li v-for="(item, i) in cardInformation" :key="i">
-        <div>
+        <a href="/">
           <img
             v-if="item.file"
             :src="'http://' + item.file.split('http://')[1]"
             alt="景點圖片"
           />
-        </div>
+        </a>
         <p>{{ item.stitle }}</p>
       </li>
     </div>
@@ -37,8 +37,7 @@ export default {
       width: 20%;
       list-style: none;
       margin: 5px 2.5%;
-      cursor: pointer;
-      div {
+      a {
         width: 280px;
         height: 200px;
         overflow: hidden;
