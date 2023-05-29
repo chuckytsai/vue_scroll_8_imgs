@@ -11,7 +11,12 @@
             @click="submit"
             src="../../../public/imgs/search.jpg"
           />
-          <input v-model="msg" @change="search" type="text" placeholder="請輸入"/>
+          <input
+            :value="message"
+            @change="search"
+            type="text"
+            placeholder="請輸入"
+          />
         </form>
       </span>
     </div>
@@ -26,22 +31,19 @@
 <script>
 import { toRefs, reactive } from "vue";
 export default {
-  setup() {
+  props: ["message"],
+  emits: ["search", "submit"],
+  setup(props, { emit }) {
     const data = reactive({
       msg: "",
     });
 
     const search = (e) => {
-      if (data.msg.length > 0) {
-        data.msg = e.target.value;
-      }
+      emit("search", e.target.value);
     };
 
-    const submit = (e) => {
-      if (data.msg.length > 0) {
-        console.log(data.msg);
-      }
-      e.preventDefault();
+    const submit = () => {
+      emit("submit");
     };
 
     return {

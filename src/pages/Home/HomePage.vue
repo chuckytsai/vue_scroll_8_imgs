@@ -1,13 +1,11 @@
 <template>
   <TemplateNav />
-  <HomeBanner />
-  <div class="homePage">
-    
-  </div>
+  <HomeBanner :message="searchWord" @search="search" @submit="submit" />
+  <div class="homePage"></div>
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { onMounted, toRefs, reactive } from "vue";
 import TemplateNav from "../../components/TemplateNav.vue";
 import HomeBanner from "./HomeBanner.vue";
 
@@ -19,6 +17,20 @@ export default {
     HomeBanner,
   },
   setup() {
+    const data = reactive({
+      searchWord: "",
+    });
+
+    const search = (value) => {
+      if (value.length > 0) {
+        data.searchWord = value;
+      }
+    };
+
+    const submit = () => {
+      console.log("data", data.searchWord);
+    };
+
     const getInformation = () => {
       getData();
     };
@@ -28,7 +40,10 @@ export default {
     });
 
     return {
+      ...toRefs(data),
       getInformation,
+      search,
+      submit,
     };
   },
 };
