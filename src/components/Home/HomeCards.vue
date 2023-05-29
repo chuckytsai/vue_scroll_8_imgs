@@ -26,15 +26,10 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  background: linear-gradient(
-    to bottom,
-    rgb(198, 201, 243, 0.5) 0%,
-    rgb(105, 185, 243, 0.3) 100%
-  );
   .cardBook {
     width: 80%;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-wrap: wrap;
     margin-top: 50px;
     padding-bottom: 50px;
@@ -43,19 +38,24 @@ export default {
       list-style: none;
       margin: 5px 2.5%;
       cursor: pointer;
-      opacity: 0.9;
       div {
-        height: 220px;
+        width: 280px;
+        height: 200px;
         overflow: hidden;
         border-radius: 10px;
         margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
         img {
-          height: 100%;
+          opacity: 0.9;
+          height: 120%;
+          width: 120%;
         }
       }
       p {
         width: 100%;
-        color: black;
+        color: rgb(100, 20, 20);
         font-size: 16px;
         font-weight: bold;
         word-wrap: break-word;
@@ -65,8 +65,12 @@ export default {
         margin-block-end: 0;
       }
     }
-    li:hover {
+    li:hover img {
       opacity: 1;
+    }
+    li:hover p {
+      color: black;
+      padding-left: 5.5px;
     }
   }
 }

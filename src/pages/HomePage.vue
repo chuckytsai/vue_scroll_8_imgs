@@ -1,7 +1,7 @@
 <template>
   <TemplateNav />
   <HomeBanner :message="searchWord" @search="search" @submit="submit" />
-  <HomeCards  :cardInformation="cardInformation" />
+  <HomeCards :cardInformation="cardInformation" />
   <div class="homePage"></div>
 </template>
 
@@ -28,12 +28,24 @@ export default {
     });
 
     const search = (value) => {
+      data.cardAmount = 8;
       data.searchWord = value;
     };
 
     const submit = () => {
+      data.cardAmount = 8;
       getInformation();
     };
+
+    window.addEventListener("scroll", () => {
+      // const scrollable =
+      //   document.documentElement.scrollHeight - window.innerHeight;
+      // const scrolled = window.scrollY;
+      // if (scrollable - scrolled < 20) {
+      //   data.cardAmount = data.cardAmount + 8;
+      // }
+      getInformation();
+    });
 
     const getInformation = async () => {
       const result = await getData();
@@ -42,8 +54,7 @@ export default {
         const Arry = result.data.result.results.filter((item) => {
           return item.stitle.includes(data.searchWord);
         });
-        data.cardInformation = Arry.slice(0, data.cardAmount);
-        console.log(Arry.slice(0, data.cardAmount));
+        data.cardInformation = Arry.slice(0, 8);
       } else {
         console.log("無法連線");
       }
