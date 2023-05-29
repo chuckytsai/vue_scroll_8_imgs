@@ -1,7 +1,7 @@
 <template>
   <TemplateNav />
   <HomeBanner :message="searchWord" @search="search" @submit="submit" />
-  <HomeCards :cardInformation="cardInformation" />
+  <HomeCards  :cardInformation="cardInformation" />
   <div class="homePage"></div>
 </template>
 
