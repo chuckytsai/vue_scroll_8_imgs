@@ -47,6 +47,7 @@ export default {
     };
 
     return {
+      props,
       ...toRefs(data),
       search,
       submit,

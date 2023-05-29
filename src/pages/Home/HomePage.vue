@@ -6,6 +6,7 @@
 
 <script>
 import { onMounted, toRefs, reactive } from "vue";
+
 import TemplateNav from "../../components/TemplateNav.vue";
 import HomeBanner from "./HomeBanner.vue";
 
@@ -19,18 +20,28 @@ export default {
   setup() {
     const data = reactive({
       searchWord: "",
+      cardAmount: 8,
+      cardInformation: [],
     });
 
     const search = (value) => {
-        data.searchWord = value;
+      data.searchWord = value;
     };
 
     const submit = () => {
-      console.log("data", data.searchWord);
+      getInformation();
     };
 
-    const getInformation = () => {
-      getData();
+    const getInformation = async () => {
+      const result = await getData();
+
+      if (result.status === 200) {
+        const Arry = result.data.result.results.filter((item) => {
+          return item.stitle.includes(data.searchWord);
+        });
+        data.cardInformation === Arry.slice(0, data.cardAmount);
+        console.log(Arry.slice(0, data.cardAmount));
+      } else console.log("無法連線");
     };
 
     onMounted(() => {
