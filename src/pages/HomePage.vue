@@ -38,12 +38,12 @@ export default {
     };
 
     window.addEventListener("scroll", () => {
-      // const scrollable =
-      //   document.documentElement.scrollHeight - window.innerHeight;
-      // const scrolled = window.scrollY;
-      // if (scrollable - scrolled < 20) {
-      //   data.cardAmount = data.cardAmount + 8;
-      // }
+      const scrollable =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = window.scrollY;
+      if (scrollable - scrolled < scrollable * 0.05) {
+        data.cardAmount = data.cardAmount + 8;
+      }
       getInformation();
     });
 
@@ -54,7 +54,7 @@ export default {
         const Arry = result.data.result.results.filter((item) => {
           return item.stitle.includes(data.searchWord);
         });
-        data.cardInformation = Arry.slice(0, 8);
+        data.cardInformation = Arry.slice(0, data.cardAmount);
       } else {
         console.log("無法連線");
       }
