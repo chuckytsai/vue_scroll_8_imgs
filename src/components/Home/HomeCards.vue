@@ -2,13 +2,13 @@
   <div class="homeCard">
     <div class="cardBook">
       <li v-for="(item, i) in cardInformation" :key="i">
-        <a href="/attraction/1">
+        <div href="/attraction/1" @click="goPage(i + 1)">
           <img
             v-if="item.file"
             :src="'http://' + item.file.split('http://')[1]"
             alt="景點圖片"
           />
-        </a>
+        </div>
         <p>{{ item.stitle }}</p>
       </li>
     </div>
@@ -16,8 +16,21 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
+
 export default {
   props: ["cardInformation"],
+  setup() {
+    const router = useRouter();
+
+    const goPage = (val) => {
+      router.push("/attraction/" + val);
+    };
+
+    return {
+      goPage,
+    };
+  },
 };
 </script>
 
@@ -37,7 +50,7 @@ export default {
       width: 20%;
       list-style: none;
       margin: 5px 2.5%;
-      a {
+      div {
         width: 280px;
         height: 200px;
         overflow: hidden;
@@ -45,6 +58,7 @@ export default {
         margin-bottom: 5px;
         display: flex;
         align-items: center;
+        cursor: pointer;
         justify-content: flex-end;
         img {
           opacity: 0.9;
