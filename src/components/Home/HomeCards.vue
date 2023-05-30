@@ -2,7 +2,7 @@
   <div class="homeCard">
     <div class="cardBook">
       <li v-for="(item, i) in cardInformation" :key="i">
-        <a href="/">
+        <a href="/attraction/1">
           <img
             v-if="item.file"
             :src="'http://' + item.file.split('http://')[1]"
