@@ -1,7 +1,18 @@
 <template>
-  <div>ID Page</div>
+  <div class="idPage">idPage</div>
 </template>
 
-<script></script>
+<script>
 
-<style></style>
+
+export default {
+  components: {
+ 
+  },
+};
+</script>
+
+<style>
+.idPage {
+}
+</style>
