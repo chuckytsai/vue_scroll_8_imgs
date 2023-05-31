@@ -1,16 +1,12 @@
 <template>
   <div class="idPage">
-    <p v-text="information.stitle"></p>
-    <p v-text="information.address"></p>
-    <p v-text="information.info"></p>
-    <p v-text="information.xbody"></p>
-    <div>
-      <img
-        v-for="(item, i) in carouselArry"
-        :key="i"
-        :src="item"
-        alt="景色圖片"
-      />
+    <p v-text="information.stitle" class="title"></p>
+    <p class="information">地點 : {{ information.address }}</p>
+    <p class="information">交通資訊 : {{ information.info }}</p>
+    <p class="information">介紹 :</p>
+    <p v-text="information.xbody" class="information story"></p>
+    <div class="carousel">
+      <CarouselImg :carouselArry="carouselArry"/>
     </div>
   </div>
 </template>
@@ -19,9 +15,14 @@
 import { onMounted, toRefs, reactive } from "vue";
 import { useRouter } from "vue-router";
 
+import CarouselImg  from "../components/CarouselImg.vue";
+
 import { getData } from "../api/PicData.js";
 
 export default {
+  components: {
+    CarouselImg,
+  },
   setup() {
     const router = useRouter();
     const PageId = window.location.pathname.split("/")[2];
@@ -69,7 +70,48 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .idPage {
+  .title {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 22px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: #66aabb;
+  }
+
+  .information {
+    width: 75%;
+    margin: 10px auto;
+    font-size: 14px;
+  }
+
+  .story {
+    height: 75px;
+    overflow-y: auto;
+    text-indent: 2em;
+    letter-spacing: 1px;
+    padding: 5px 3px;
+  }
+  .story::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .story::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.8);
+  }
+
+  .story::-webkit-scrollbar-thumb {
+    background-color: rgb(31, 37, 71);
+    border: 1px solid rgb(47, 77, 109);
+  }
+  .carousel {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>
