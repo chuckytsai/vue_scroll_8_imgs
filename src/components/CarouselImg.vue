@@ -13,9 +13,10 @@
           class="carouselBanner"
           :style="{
             left: distance,
+            transition: speed,
           }"
         >
-          <li v-for="(item, i) in carouselArry" :key="i" class="imgs">
+          <li v-for="(item, i) in imgAmt" :key="i" class="imgs">
             <img :src="item" alt="景色圖片" />
           </li>
         </ul>
@@ -27,13 +28,13 @@
     <div>
       <!-- 根據dot的index值 改變active點亮狀態 -->
       <ul class="dots">
-        <li
-          v-for="(item, i) in carouselArry"
-          :key="item"
-          class="dot"
-          @click="clickMe(i)"
-          :class="{ active: i === index }"
-        ></li>
+        <li v-for="(item, i) in carouselArry" :key="item">
+          <button
+            class="dot"
+            @click="clickMe(i)"
+            :class="{ active: i === index }"
+          ></button>
+        </li>
       </ul>
     </div>
   </div>
@@ -46,8 +47,10 @@ export default {
   props: ["carouselArry"], // 決定圖片數量清單
   setup(props) {
     const data = reactive({
+      imgAmt: props.carouselArry,
       index: 0, // 顯示第幾個圖 預設為 0
       distance: "375px", //預設第一章圖片位置
+      speed: "all 0s linear 0s, all 1s ease 0s",
     });
 
     // 點選dot 變化圖片
@@ -59,19 +62,26 @@ export default {
     // 點選左右邊按鈕 變化圖片以及dot
     const directionControl = (direction) => {
       // direction布林值(左邊:false, 右邊:true)
-      if (direction === true && data.index < props.carouselArry.length - 1) {
-        data.index = data.index + 1;
-      } else if (
-        direction === true &&
-        data.index === props.carouselArry.length - 1
-      ) {
+      data.speed = "all 0s linear 0s, all 1s ease 0s";
+      if (direction === true && data.index < data.imgAmt.length - 1) {
+        clickMe(data.index + 1);
+      } else if (direction === true && data.index === data.imgAmt.length - 1) {
+        data.imgAmt = [];
+        data.imgAmt.push(...props.carouselArry, props.carouselArry[0]);
         data.index = 0;
+        data.distance =
+          (data.imgAmt.length - 1 - ((data.imgAmt.length - 1) * 2 - 1)) * 375 +
+          "px";
+        setTimeout(() => {
+          data.speed = "all 0s linear 0s, all 0s ease 0s";
+          data.distance = "375px";
+          data.imgAmt = props.carouselArry;
+        }, 1000);
       } else if (direction === false && data.index !== 0) {
-        data.index = data.index - 1;
+        clickMe(data.index - 1);
       } else if (direction === false && data.index === 0) {
-        data.index = props.carouselArry.length - 1;
+        clickMe(props.carouselArry.length - 1);
       }
-      data.distance = (data.index - (data.index * 2 - 1)) * 375 + "px";
     };
 
     return {
@@ -96,10 +106,10 @@ export default {
       border-radius: 10px;
       border: none;
       z-index: 1;
-      margin: 0 -20px;
+      margin: 0 -22.5px;
       background-color: transparent;
       img {
-        opacity: 0.75;
+        opacity: 0.9;
       }
     }
     button:active img {
@@ -116,7 +126,6 @@ export default {
       position: absolute;
       width: 100vw;
       transform: translateX(-375px);
-      transition: all 0s ease 0s, all 0s linear 0s, all 1s ease 0s;
       .imgs {
         list-style: none;
         display: flex;
@@ -136,14 +145,16 @@ export default {
     justify-content: flex-start;
     padding-left: 1%;
     li {
-      cursor: pointer;
       list-style: none;
+      margin: 10px 2%;
+    }
+    button {
       width: 20px;
       height: 20px;
-      border-radius: 50%;
       background-color: rgb(47, 77, 109);
-      margin: 10px 2%;
       opacity: 0.5;
+      border-radius: 50%;
+      color: white;
     }
     .active {
       opacity: 1;
