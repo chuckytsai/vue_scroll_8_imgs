@@ -55,7 +55,7 @@ export default {
 <style lang="scss">
 .bannerImg {
   width: 375px;
-  height: 300px;
+  height: 280px;
   position: relative;
   overflow: hidden;
   .carousel-banner {
@@ -63,12 +63,16 @@ export default {
     position: absolute;
     width: 100vw;
     transform: translateX(-375px);
-    transition: all 0s ease 0s, all 0s linear 0s, all  1s ease 0s;
+    transition: all 0s ease 0s, all 0s linear 0s, all 1s ease 0s;
     .imgs {
       list-style: none;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     }
     img {
       width: 375px;
+      height: 280px;
       border-radius: 10px;
     }
   }
@@ -85,7 +89,7 @@ export default {
     height: 20px;
     border-radius: 50%;
     background-color: rgb(47, 77, 109);
-    margin: 0 2%;
+    margin: 10px 2%;
     opacity: 0.5;
   }
   .active {
