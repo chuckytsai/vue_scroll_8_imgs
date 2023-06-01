@@ -16,7 +16,7 @@
             transition: speed,
           }"
         >
-          <li v-for="(item, i) in imgAmt" :key="i" class="imgs">
+          <li v-for="(item, i) in list" :key="i" class="imgs">
             <img :src="item" alt="景色圖片" />
           </li>
         </ul>
@@ -32,7 +32,7 @@
           <button
             class="dot"
             @click="clickMe(i)"
-            :class="{ active: i === index }"
+            :class="{ active: i === dotActive }"
           ></button>
         </li>
       </ul>
@@ -41,51 +41,87 @@
 </template>
 
 <script>
-import { toRefs, reactive } from "vue";
+import { toRefs, reactive, computed } from "vue";
 
 export default {
   props: ["carouselArry"], // 決定圖片數量清單
   setup(props) {
     const data = reactive({
-      imgAmt: props.carouselArry,
       index: 0, // 顯示第幾個圖 預設為 0
-      distance: "375px", //預設第一章圖片位置
-      speed: "all 0s linear 0s, all 1s ease 0s",
+      speed: "all 0s linear 0s, all 1.5s ease 0s",
+      // speed: "all 0s linear 0s, all 1s ease 0s",
+    });
+
+    const dotActive = computed(() => {
+      if (data.index === props.carouselArry.length) {
+        return 0;
+      }
+      return data.index;
+    });
+
+    const distance = computed(() => {
+      return data.index * -375 + "px";
+    });
+
+    const list = computed(() => {
+      return [
+        props.carouselArry[props.carouselArry.length - 1],
+        ...props.carouselArry,
+        props.carouselArry[0],
+      ];
     });
 
     // 點選dot 變化圖片
     const clickMe = (index) => {
       data.index = index;
-      data.distance = (index - (index * 2 - 1)) * 375 + "px";
+      // data.distance = (index - (index * 2 - 1)) * 375 + "px";
     };
 
     // 點選左右邊按鈕 變化圖片以及dot
+    // direction布林值(左邊:false, 右邊:true)
     const directionControl = (direction) => {
-      // direction布林值(左邊:false, 右邊:true)
-      data.speed = "all 0s linear 0s, all 1s ease 0s";
-      if (direction === true && data.index < data.imgAmt.length - 1) {
+      const imgAmt = props.carouselArry;
+      // data.speed = "all 0s linear 0s, all 1s ease 0s";
+      if (direction === true && data.index < imgAmt.length) {
         clickMe(data.index + 1);
-      } else if (direction === true && data.index === data.imgAmt.length - 1) {
-        data.imgAmt = [];
-        data.imgAmt.push(...props.carouselArry, props.carouselArry[0]);
-        data.index = 0;
-        data.distance =
-          (data.imgAmt.length - 1 - ((data.imgAmt.length - 1) * 2 - 1)) * 375 +
-          "px";
-        setTimeout(() => {
-          data.speed = "all 0s linear 0s, all 0s ease 0s";
-          data.distance = "375px";
-          data.imgAmt = props.carouselArry;
-        }, 1000);
-      } else if (direction === false && data.index !== 0) {
-        clickMe(data.index - 1);
-      } else if (direction === false && data.index === 0) {
-        clickMe(props.carouselArry.length - 1);
       }
+
+      setTimeout(() => {
+        if(data.index === imgAmt.length){
+          console.log("back");
+        }
+      }, 1000);
+
+      // else if (direction === true && data.index + 1 === imgAmt.length) {
+      //   clickMe(0);
+      // }
+
+      // else if (direction === true && data.index === list.value.length - 1) {
+      // data.imgAmt = [];
+      // data.imgAmt.push(...props.carouselArry, props.carouselArry[0]);
+      // data.index = 0;
+      // data.distance =
+      //   (data.imgAmt.length - 1 - ((data.imgAmt.length - 1) * 2 - 1)) * 375 +
+      //   "px";
+      // setTimeout(() => {
+      //   data.speed = "all 0s linear 0s, all 0s ease 0s";
+      //   data.distance = "375px";
+      //   data.imgAmt = props.carouselArry;
+      // }, 1000);
+      //   clickMe(0);
+      // }
+      // else if (direction === false && data.index !== 0) {
+      //   clickMe(data.index - 1);
+      // } else if (direction === false && data.index === 0) {
+      //   clickMe(props.carouselArry.length - 1);
+      // }
     };
 
     return {
       props,
+      dotActive,
+      list,
+      distance,
       ...toRefs(data),
       clickMe,
       directionControl,
