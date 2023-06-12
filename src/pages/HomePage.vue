@@ -1,5 +1,4 @@
 <template>
-  <TemplateNav />
   <HomeBanner :message="searchWord" @search="search" @submit="submit" />
   <HomeCards :cardInformation="cardInformation" />
 </template>
@@ -8,7 +7,6 @@
 import { onMounted, toRefs, reactive } from "vue";
 import { useStore } from "vuex";
 
-import TemplateNav from "../components/TemplateNav.vue";
 import HomeBanner from "../components/Home/HomeBanner.vue";
 import HomeCards from "../components/Home/HomeCards.vue";
 
@@ -16,7 +14,6 @@ import { getData } from "../api/PicData.js";
 
 export default {
   components: {
-    TemplateNav,
     HomeBanner,
     HomeCards,
   },
