@@ -9,7 +9,7 @@
           <img
             alt="search"
             @click="submit"
-            src="../../../public/imgs/search.jpg"
+            src="/imgs/search.jpg"
           />
           <input
             :value="message"
@@ -23,7 +23,7 @@
 
     <!-- 中正紀念堂圖片 -->
     <div class="group background">
-      <img alt="hamburg" src="../../../public/imgs/welcome.jpg" />
+      <img alt="hamburg" src="/imgs/welcome.jpg" />
     </div>
   </div>
 </template>
