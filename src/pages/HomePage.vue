@@ -1,6 +1,14 @@
 <template>
-  <HomeBanner :message="searchWord" @search="search" @submit="submit" />
-  <HomeCards :cardInformation="cardInformation" />
+  <div
+    v-on:scroll="scrollable"
+    :style="{
+      height: '100vh',
+      overflowY: 'scroll',
+    }"
+  >
+    <HomeBanner :message="searchWord" @search="search" @submit="submit" />
+    <HomeCards :cardInformation="cardInformation" />
+  </div>
 </template>
 
 <script>
@@ -38,16 +46,13 @@ export default {
     };
 
     // 計算視窗卷軸快拉到底 再呼叫8個卡片
-    window.addEventListener("scroll", () => {
-      const scrollable =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = window.scrollY;
-
-      if (scrollable - scrolled < scrollable * 0.05) {
+    const scrollable = (even) => {
+      const el = even.target;
+      if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
         data.cardAmount = data.cardAmount + 8;
         getInformation();
       }
-    });
+    };
 
     // 呼叫卡片資訊(以8個為基礎)
     const getInformation = async () => {
@@ -77,6 +82,7 @@ export default {
       getInformation,
       search,
       submit,
+      scrollable,
     };
   },
 };
