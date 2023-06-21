@@ -6,7 +6,7 @@
     <p class="information">介紹 :</p>
     <p v-text="information.xbody" class="information story"></p>
     <div class="carousel">
-      <CarouselImg :carouselArry="carouselArry"/>
+      <CarouselImg :carouselArry="carouselArry" />
     </div>
   </div>
 </template>
@@ -15,7 +15,7 @@
 import { onMounted, toRefs, reactive } from "vue";
 import { useRouter } from "vue-router";
 
-import CarouselImg  from "../components/CarouselImg.vue";
+import CarouselImg from "../components/CarouselImg.vue";
 
 import { getData } from "../api/PicData.js";
 
@@ -23,6 +23,7 @@ export default {
   components: {
     CarouselImg,
   },
+  // window.location.pathname的最後一個數字判斷是否有這個資料
   setup() {
     const router = useRouter();
     const PageId = window.location.pathname.split("/")[2];
@@ -34,13 +35,14 @@ export default {
 
     const getInformation = async () => {
       const result = await getData();
+      const results = result.data.result.results.filter((item) => {
+          return item.RowNumber === PageId;
+        });
 
-      // window.location.pathname的最後一個數字判斷是否有這個資料
       // 如果沒有則返回前一頁
-      if (result.status === 200 && result.data.result.results.length > PageId) {
-        const results = result.data.result.results;
-        const ImgUrl = results[PageId - 1].file.split("http://");
-        data.information = results[PageId - 1];
+      if (result.status === 200 && results.length > 0) {
+        const ImgUrl = results[0].file.split("http://");
+        data.information = results[0];
 
         for (let x = 0; x < ImgUrl.length; x++) {
           // 切割出來空白&非圖片格式剃除

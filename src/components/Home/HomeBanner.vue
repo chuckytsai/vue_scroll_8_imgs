@@ -62,31 +62,38 @@ export default {
   height: 300px;
   display: flex;
   overflow: hidden;
+
   .group {
     width: 50%;
     height: 300px;
     display: flex;
     justify-content: center;
+
     span p {
       color: white;
       margin: 20px 0;
       user-select: none;
     }
+
     span {
       :nth-child(1) {
         font-size: 24px;
       }
+
       :nth-child(2) {
         font-size: 16px;
       }
+
       :nth-child(3) {
         margin-top: 10px;
         height: 30px;
         display: flex;
+
         img {
           cursor: pointer;
           user-select: none;
         }
+
         input {
           padding-left: 5px;
           outline: none;
@@ -98,28 +105,35 @@ export default {
   .introduce {
     align-items: center;
   }
+
   .background {
     align-items: flex-end;
+
     img {
       height: 120%;
     }
   }
 }
+
 @media (max-width: 800px) {
   .homeBanner {
     display: block;
+    
     .group {
       width: 100%;
-      position: absolute;
       z-index: 2;
+      height: auto;
     }
+
     .introduce {
       align-items: baseline;
     }
+    
     .background {
       z-index: 1;
+
       img {
-        height: 40%;
+        height: 180px;
       }
     }
   }

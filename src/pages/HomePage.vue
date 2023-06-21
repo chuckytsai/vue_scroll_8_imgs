@@ -7,12 +7,13 @@
     }"
   >
     <HomeBanner :message="searchWord" @search="search" @submit="submit" />
-    <HomeCards :cardInformation="cardInformation" />
+    <HomeCards :cardInformation="cardInformation" :boxMath="boxMath"/>
   </div>
 </template>
 
 <script>
-import { onMounted, toRefs, reactive } from "vue";
+import { onMounted, toRefs, reactive , computed } from "vue";
+// import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 import HomeBanner from "../components/Home/HomeBanner.vue";
@@ -27,11 +28,16 @@ export default {
   },
   setup() {
     const store = useStore();
+    // const router = useRouter();
     const data = reactive({
       searchWord: "", //搜尋關鍵字
       cardAmount: 8, //預設8個卡片
-      cardInformation: [""], //8個卡片的api資訊儲存
+      cardInformation: [], //8個卡片的api資訊儲存
     });
+
+    const boxMath = computed(()=>{
+      return Math.floor(data.cardInformation.length / 8) ;
+    })
 
     // 搜尋ICON按下  關鍵字送出
     const search = (value) => {
@@ -48,10 +54,26 @@ export default {
     // 計算視窗卷軸快拉到底 再呼叫8個卡片
     const scrollable = (even) => {
       const el = even.target;
-      if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
+      // const Amount = data.cardAmount / 8;
+      // const log = (el.scrollHeight - el.scrollTop) / el.clientHeight;
+      if (
+        Math.ceil(el.scrollTop) + el.clientHeight >= el.scrollHeight &&
+        store.state.loading === false
+      ) {
+        // router.replace("/#" + data.cardAmount / 8);
+        store.commit("loadingState", true);
         data.cardAmount = data.cardAmount + 8;
         getInformation();
-      }
+      } 
+      // else{
+      //   console.log( Math.ceil(el.scrollTop) , el.clientHeight , el.scrollHeight);
+      // }
+
+      // else if (Amount - log > 0 && Amount - log < 0.5) {
+      //   router.replace("/#1");
+      // } else if (Amount - log > 0) {
+      //   router.replace("/#" + Math.round(Amount - log));
+      // }
     };
 
     // 呼叫卡片資訊(以8個為基礎)
@@ -62,23 +84,25 @@ export default {
         const Arry = result.data.result.results.filter((item) => {
           return item.stitle.includes(data.searchWord);
         });
-        // loading 呼叫
-        store.commit("loadingState", true);
-
         data.cardInformation = Arry.slice(0, data.cardAmount);
         // loading 取消
         store.commit("loadingState", false);
       } else {
         console.log("無法連線");
+        // loading 取消
+        store.commit("loadingState", false);
       }
     };
 
     onMounted(() => {
+      // loading 呼叫
+      store.commit("loadingState", true);
       getInformation();
     });
 
     return {
       ...toRefs(data),
+      boxMath,
       getInformation,
       search,
       submit,
