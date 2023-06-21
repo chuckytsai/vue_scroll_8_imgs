@@ -48,7 +48,7 @@ export default {
     };
 
     watch(
-      () => props.boxMath,
+      () => props.cardInformation,
       () => {
         getBoxsInfo();
       }

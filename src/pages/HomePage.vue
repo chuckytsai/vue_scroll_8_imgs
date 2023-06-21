@@ -80,23 +80,19 @@ export default {
     // 呼叫卡片資訊(以8個為基礎)
     const getInformation = async () => {
       const result = await getData();
-
       if (result.status === 200) {
         const Arry = result.data.result.results.filter((item) => {
           return item.stitle.includes(data.searchWord);
         });
         data.cardInformation = Arry.slice(0, data.cardAmount);
-        // loading 取消
         store.commit("loadingState", false);
       } else {
         console.log("無法連線");
-        // loading 取消
         store.commit("loadingState", false);
       }
     };
 
     onMounted(() => {
-      // loading 呼叫
       store.commit("loadingState", true);
       getInformation();
     });
