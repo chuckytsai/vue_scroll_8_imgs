@@ -10,7 +10,7 @@
             loading="lazy"
           />
         </div>
-        <p>{{ item.RowNumber}} : {{ item.stitle }}</p>
+        <p>{{ item.stitle }}</p>
       </li>
     </div>
   </div>
@@ -28,13 +28,16 @@ export default {
       arry: [],
     });
 
-    // 獲取每8個為一組的圖片與資訊
+    // 獲取最多8個為一組的圖片與資訊
     const getBoxsInfo = () => {
-      const itemsArr = [];
-      const cardInformation = props.cardInformation;
+      const itemsArr = []; // 個別卡片資訊
+      const cardInformation = props.cardInformation; // api全部的卡片資訊
+      const boxMath = props.boxMath; // 錨點區域
+      const itemAmount = Math.floor(cardInformation.length / boxMath); // 計算每組顯示幾張卡片
 
-      for (let i = 0; i < 8; i++) {
-        itemsArr.push(cardInformation[(props.boxMath - 1) * 8 + i]);
+      // 分別有錨點或是無錨點計算卡片顯示
+      for (let i = 0; i < itemAmount; i++) {
+        itemsArr.push(cardInformation[(boxMath - 1) * 8 + i]);
       }
       data.arry.push(itemsArr);
     };
@@ -51,6 +54,7 @@ export default {
       }
     );
 
+    // 開啟網頁先重置卡片資訊
     onMounted(() => {
       data.arry = [];
     });
@@ -71,6 +75,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  padding: 2.5% 0;
 
   .cardBook {
     width: 80%;

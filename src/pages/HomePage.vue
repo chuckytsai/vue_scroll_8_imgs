@@ -7,13 +7,13 @@
     }"
   >
     <HomeBanner :message="searchWord" @search="search" @submit="submit" />
-    <HomeCards :cardInformation="cardInformation" :boxMath="boxMath"/>
+    <HomeCards :cardInformation="cardInformation" :boxMath="boxMath" />
   </div>
 </template>
 
 <script>
-import { onMounted, toRefs, reactive , computed } from "vue";
-// import { useRouter } from "vue-router";
+import { onMounted, toRefs, reactive, computed } from "vue";
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 import HomeBanner from "../components/Home/HomeBanner.vue";
@@ -28,16 +28,17 @@ export default {
   },
   setup() {
     const store = useStore();
-    // const router = useRouter();
+    const router = useRouter();
     const data = reactive({
       searchWord: "", //搜尋關鍵字
       cardAmount: 8, //預設8個卡片
       cardInformation: [], //8個卡片的api資訊儲存
     });
 
-    const boxMath = computed(()=>{
-      return Math.floor(data.cardInformation.length / 8) ;
-    })
+    // 8個圖片為一組,作為錨點使用
+    const boxMath = computed(() => {
+      return Math.ceil(data.cardInformation.length / 8);
+    });
 
     // 搜尋ICON按下  關鍵字送出
     const search = (value) => {
@@ -60,11 +61,11 @@ export default {
         Math.ceil(el.scrollTop) + el.clientHeight >= el.scrollHeight &&
         store.state.loading === false
       ) {
-        // router.replace("/#" + data.cardAmount / 8);
+        router.replace("/#" + data.cardAmount / 8);
         store.commit("loadingState", true);
         data.cardAmount = data.cardAmount + 8;
         getInformation();
-      } 
+      }
       // else{
       //   console.log( Math.ceil(el.scrollTop) , el.clientHeight , el.scrollHeight);
       // }
